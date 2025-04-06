@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ESCNJLogo from "../../../../assets/ESCNJ-Logo.jpg"
 import './AuthForm.css';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
@@ -62,40 +63,47 @@ const AuthForm = () => {
 
     return (
         <div className="auth-form">
-            <div className='input-container'>
-                <label htmlFor='username' className='label'>Username</label>
-                <input
-                    type='text'
-                    className='input'
-                    id='username'
-                    name='username'
-                    value={formData.username}
-                    onChange={handleChange}
-                />
-                {errors.username && <div className='error'>{errors.username}</div>}
+            <div className="login-logo">
+                <img src={ESCNJLogo}></img>
             </div>
-            <div className='input-container'>
-                <label htmlFor='password' className='label'>Password</label>
-                <div className='password-wrapper'>
+            <div className="input-form">
+                <div className='input-container'>
+                    <label htmlFor='username' className='label'>Username</label>
                     <input
-                        type={`${showPassword ? 'text' : 'password'}`}
+                        type='text'
                         className='input'
-                        id='password'
-                        name='password'
-                        value={formData.password}
+                        id='username'
+                        name='username'
+                        value={formData.username}
                         onChange={handleChange}
                     />
-                    {!showPassword ?
-                        <FaRegEye size={20} onClick={toggleShowPassword} />
-                        :
-                        <FaRegEyeSlash size={20} onClick={toggleShowPassword} />
-                    }
+                    {errors.username && <div className='error'>{errors.username}</div>}
                 </div>
-                {errors.password && <div className='error'>{errors.password}</div>}
-            </div>
-            <div className='input-container'>
-                <button onClick={handleSubmit}>Login</button>
-                {errors.login && <div className='error'>{errors.login}</div>}
+                <div className='input-container'>
+                    <label htmlFor='password' className='label'>Password</label>
+                    <div className='password-wrapper'>
+                        <input
+                            type={`${showPassword ? 'text' : 'password'}`}
+                            className='input'
+                            id='password'
+                            name='password'
+                            value={formData.password}
+                            onChange={handleChange}
+                        />
+                        <div className="password-eye">
+                            {!showPassword ?
+                                <FaRegEye size={20} onClick={toggleShowPassword} />
+                                :
+                                <FaRegEyeSlash size={20} onClick={toggleShowPassword} />
+                            }
+                        </div>
+                    </div>
+                    {errors.password && <div className='error'>{errors.password}</div>}
+                </div>
+                <div className='input-container'>
+                    <button onClick={handleSubmit}>Login</button>
+                    {errors.login && <div className='error'>{errors.login}</div>}
+                </div>
             </div>
         </div>
     )
