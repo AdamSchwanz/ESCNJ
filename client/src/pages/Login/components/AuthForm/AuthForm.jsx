@@ -2,6 +2,13 @@ import { useState } from 'react';
 import ESCNJLogo from "../../../../assets/ESCNJ-Logo.jpg"
 import './AuthForm.css';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { HideLoading, ShowLoading } from '../../../../redux/loaderSlice';
+import CustomModal from '../../../../components/CustomModal/CustomModal';
+import SetPassword from '../SetPassword/SetPassword';
+import userService from '../../../../services/userService';
 
 const AuthForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -14,14 +21,16 @@ const AuthForm = () => {
         password: '',
         login: ''
     });
+    const [showModal, setShowModal] = useState(false);
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const toggleShowPassword = () => {
         setShowPassword((prevState) => !prevState);
     };
 
     const handleChange = (e) => {
-        console.log("Field Name: ", e.target.name);
-        console.log("Field Value: ", e.target.value);
         const { name, value } = e.target;
         setFormData((prevState) => ({ ...prevState, [name]: value }));
     };
@@ -46,66 +55,91 @@ const AuthForm = () => {
         return !hasErrors;
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log("Form Data: ", formData);
         if (!validateData()) {
-            return console.log("Invalid Data, stopping execution...");
-        }
-        console.log("Valid Data, continuing execution...");
-        if (formData.username !== 'adam') {
-            console.log("Invalid")
-            setErrors((prevState) => ({ ...prevState, login: "Invalid Credentials!" }));
-        } else {
             setErrors((prevState) => ({ ...prevState, login: "" }));
+            return;
         }
-        //send data to the backend
+        try {
+            dispatch(ShowLoading());
+            const response = await userService.loginUser(formData);
+            console.log("Response: ", response);
+            setErrors((prevState) => ({ ...prevState, login: "" }));
+            if (!response.token && response.tempUser) {
+                setShowModal(true);
+            } else if (response.token && !response.tempUser) {
+                Cookies.set('escnj-jwt-token', response.token, {
+                    secure: true,
+                    sameSite: 'Lax'
+                });
+                const from = location.state?.from.pathname;
+                navigate(from || '/');
+            }
+        } catch (error) {
+            setErrors((prevState) => ({ ...prevState, login: error?.response?.data?.error || "Something Went Wrong!" }));
+        } finally {
+            dispatch(HideLoading());
+        }
+    };
+
+    const handleCloseModal = ({ success }) => {
+        if (success) {
+            setFormData((prevState) => ({ ...prevState, password: "" }));
+        }
+        setShowModal(false);
     };
 
     return (
-        <div className="auth-form">
-            <div className="login-logo">
-                <img src={ESCNJLogo}></img>
-            </div>
-            <div className="input-form">
-                <div className='input-container'>
-                    <label htmlFor='username' className='label'>Username</label>
-                    <input
-                        type='text'
-                        className='input'
-                        id='username'
-                        name='username'
-                        value={formData.username}
-                        onChange={handleChange}
-                    />
-                    {errors.username && <div className='error'>{errors.username}</div>}
+        <>
+            <div className="auth-form">
+                <div className="login-logo">
+                    <img src={ESCNJLogo}></img>
                 </div>
-                <div className='input-container'>
-                    <label htmlFor='password' className='label'>Password</label>
-                    <div className='password-wrapper'>
+                <div className="input-form">
+                    <div className='input-container'>
+                        <label htmlFor='username' className='label'>Username</label>
                         <input
-                            type={`${showPassword ? 'text' : 'password'}`}
+                            type='text'
                             className='input'
-                            id='password'
-                            name='password'
-                            value={formData.password}
+                            id='username'
+                            name='username'
+                            value={formData.username}
                             onChange={handleChange}
                         />
-                        <div className="password-eye">
-                            {!showPassword ?
-                                <FaRegEye size={20} onClick={toggleShowPassword} />
-                                :
-                                <FaRegEyeSlash size={20} onClick={toggleShowPassword} />
-                            }
-                        </div>
+                        {errors.username && <div className='error'>{errors.username}</div>}
                     </div>
-                    {errors.password && <div className='error'>{errors.password}</div>}
-                </div>
-                <div className='input-container'>
-                    <button onClick={handleSubmit}>Login</button>
-                    {errors.login && <div className='error'>{errors.login}</div>}
+                    <div className='input-container'>
+                        <label htmlFor='password' className='label'>Password</label>
+                        <div className='password-wrapper'>
+                            <input
+                                type={`${showPassword ? 'text' : 'password'}`}
+                                className='input'
+                                id='password'
+                                name='password'
+                                value={formData.password}
+                                onChange={handleChange}
+                            />
+                            <div className="password-eye">
+                                {!showPassword ?
+                                    <FaRegEye size={20} onClick={toggleShowPassword} />
+                                    :
+                                    <FaRegEyeSlash size={20} onClick={toggleShowPassword} />
+                                }
+                            </div>
+                        </div>
+                        {errors.password && <div className='error'>{errors.password}</div>}
+                    </div>
+                    <div className='input-container'>
+                        <button onClick={handleSubmit}>Login</button>
+                        {errors.login && <div className='error'>{errors.login}</div>}
+                    </div>
                 </div>
             </div>
-        </div>
+            <CustomModal isOpen={showModal} onRequestClose={handleCloseModal} contentLabel={"Password Setup"} width='40%' >
+                <SetPassword userData={formData} onModalClose={handleCloseModal} />
+            </CustomModal>
+        </>
     )
 };
 

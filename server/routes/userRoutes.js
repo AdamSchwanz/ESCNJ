@@ -10,4 +10,10 @@ router.post(
     controller.Login
 );
 
+router.post(
+    "/set-password",
+    validationMiddleware.validateRequest(userSchemas.setPasswordSchema),
+    controller.SetPassword
+);
+
 module.exports = router;

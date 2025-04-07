@@ -17,6 +17,17 @@ const Login = async (req, res, next) => {
     }
 };
 
+const SetPassword = async (req, res, next) => {
+    try {
+        const data = { ...req.body };
+        await userService.setPassword(data);
+        res.status(200).json({ message: "New Password has been set, Please login again to continue" });
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     Login,
+    SetPassword
 };
