@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { HideLoading, ShowLoading } from '../../../../redux/loaderSlice';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
 import SetPassword from '../SetPassword/SetPassword';
+import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import userService from '../../../../services/userService';
 
 const AuthForm = () => {
@@ -22,6 +23,7 @@ const AuthForm = () => {
         login: ''
     });
     const [showModal, setShowModal] = useState(false);
+    const [selectedView, setSelectedView] = useState("login");
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -96,46 +98,52 @@ const AuthForm = () => {
                 <div className="login-logo">
                     <img src={ESCNJLogo}></img>
                 </div>
-                <div className="input-form">
-                    <div className='input-container'>
-                        <label htmlFor='username' className='label'>Username</label>
-                        <input
-                            type='text'
-                            className='input'
-                            id='username'
-                            name='username'
-                            value={formData.username}
-                            onChange={handleChange}
-                        />
-                        {errors.username && <div className='error'>{errors.username}</div>}
-                    </div>
-                    <div className='input-container'>
-                        <label htmlFor='password' className='label'>Password</label>
-                        <div className='password-wrapper'>
+                {selectedView === "login" ?
+                    <div className="input-form">
+                        <div className='input-container'>
+                            <label htmlFor='username' className='label'>Username</label>
                             <input
-                                type={`${showPassword ? 'text' : 'password'}`}
+                                type='text'
                                 className='input'
-                                id='password'
-                                name='password'
-                                value={formData.password}
+                                id='username'
+                                name='username'
+                                value={formData.username}
                                 onChange={handleChange}
                             />
-                            <div className="password-eye">
-                                {!showPassword ?
-                                    <FaRegEye size={20} onClick={toggleShowPassword} />
-                                    :
-                                    <FaRegEyeSlash size={20} onClick={toggleShowPassword} />
-                                }
-                            </div>
+                            {errors.username && <div className='error'>{errors.username}</div>}
                         </div>
-                        {errors.password && <div className='error'>{errors.password}</div>}
+                        <div className='input-container'>
+                            <label htmlFor='password' className='label'>Password</label>
+                            <div className='password-wrapper'>
+                                <input
+                                    type={`${showPassword ? 'text' : 'password'}`}
+                                    className='input'
+                                    id='password'
+                                    name='password'
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                />
+                                <div className="password-eye">
+                                    {!showPassword ?
+                                        <FaRegEye size={20} onClick={toggleShowPassword} />
+                                        :
+                                        <FaRegEyeSlash size={20} onClick={toggleShowPassword} />
+                                    }
+                                </div>
+                            </div>
+                            {errors.password && <div className='error'>{errors.password}</div>}
+                        </div>
+                        <div className='input-container'>
+                            <button onClick={handleSubmit}>Login</button>
+                            {errors.login && <div className='error'>{errors.login}</div>}
+                        </div>
+                        <div className='forgot-password' onClick={() => setSelectedView("forgot-password")}>Forgot your password?</div>
                     </div>
-                    <div className='input-container'>
-                        <button onClick={handleSubmit}>Login</button>
-                        {errors.login && <div className='error'>{errors.login}</div>}
-                    </div>
-                </div>
+                    :
+                    <ForgotPassword setSelectedView={setSelectedView} />
+                }
             </div>
+
             <CustomModal isOpen={showModal} onRequestClose={handleCloseModal} contentLabel={"Password Setup"} width='40%' >
                 <SetPassword userData={formData} onModalClose={handleCloseModal} />
             </CustomModal>

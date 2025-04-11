@@ -11,7 +11,14 @@ const setPasswordSchema = yup.object().shape({
     newPassword: yup.string().trim().required('New Password is required')
 });
 
+const forgotPasswordSchema = yup.object().shape({
+    username: yup.string().trim(),
+    email: yup.string().trim().email("Invalid email address").required('Password is required'),
+    companyName: yup.string().trim()
+});
+
 module.exports = {
     loginSchema,
-    setPasswordSchema
+    setPasswordSchema,
+    forgotPasswordSchema
 };

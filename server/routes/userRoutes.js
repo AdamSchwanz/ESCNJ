@@ -16,4 +16,10 @@ router.post(
     controller.SetPassword
 );
 
+router.post(
+    "/forgot-password",
+    validationMiddleware.validateRequest(userSchemas.forgotPasswordSchema),
+    controller.ForgotPassword
+);
+
 module.exports = router;

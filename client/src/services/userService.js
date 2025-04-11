@@ -19,6 +19,14 @@ const userService = {
             throw error;
         }
     },
+    forgotPassword: async (payload) => {
+        try {
+            const response = await axiosInstance.post(`${BASE_URL}/forgot-password`, payload, { withCredentials: true, skipAuthRefresh: true });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 }
 
 export default userService;

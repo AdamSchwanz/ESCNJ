@@ -1,4 +1,5 @@
 const userService = require("../services/userService");
+const emailService = require("../services/emailService");
 
 const Login = async (req, res, next) => {
     try {
@@ -27,7 +28,25 @@ const SetPassword = async (req, res, next) => {
     }
 };
 
+const ForgotPassword = async (req, res, next) => {
+    try {
+        const { username, email, companyName } = req.body;
+        const ownerEmail = await userService.fetchOwnerEmail();
+        const emailContent = `
+        Hello, you have a password reset request.
+        ${companyName ? `Company: ${companyName},` : ''}
+        Email: ${email}${username ? ',' : ''}
+        ${username ? `UserName: ${username}` : ''}
+        `;
+        await emailService.sendEmail(ownerEmail, "Forgot Password!", emailContent)
+        res.status(200).json({ message: "Email Sent!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     Login,
-    SetPassword
+    SetPassword,
+    ForgotPassword
 };

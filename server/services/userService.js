@@ -79,7 +79,29 @@ const setPassword = async (userData) => {
     }
 };
 
+const fetchOwnerEmail = async () => {
+    const result = await sql.query(
+        `Select ResetEmail From dbo.S_DefaultT`
+    );
+    console.log("Result: ", result.recordset);
+    if (result.recordset && result.recordset.length > 0) {
+        const defaultConfig = result.recordset[0];
+        if (!defaultConfig.ResetEmail) {
+            const error = new Error("Something Went Wrong!");
+            error.code = 400;
+            throw error;
+        }
+        return defaultConfig.ResetEmail;
+
+    } else {
+        const error = new Error("Something Went Wrong!");
+        error.code = 400;
+        throw error;
+    }
+};
+
 module.exports = {
     loginUser,
-    setPassword
+    setPassword,
+    fetchOwnerEmail
 };
