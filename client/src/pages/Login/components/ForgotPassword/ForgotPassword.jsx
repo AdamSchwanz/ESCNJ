@@ -111,8 +111,12 @@ const ForgotPassword = ({ setSelectedView }) => {
 
 
                 <div className='buttons-wrapper'>
-                    <IoMdArrowBack className='back-btn' size={24} onClick={() => setSelectedView("login")} />
-                    <button onClick={handleSubmit}>{isEmailSent ? "Resend Email" : "Send Email"}</button>
+                    <div className="button-container">
+                        <IoMdArrowBack className='back-btn' size={24} onClick={() => setSelectedView("login")} />
+                    </div>
+                    <div className="button-container">
+                        <button onClick={handleSubmit}>{isEmailSent ? "Resend Email" : "Send Email"}</button>
+                    </div>
                 </div>
             </div>
         </div>

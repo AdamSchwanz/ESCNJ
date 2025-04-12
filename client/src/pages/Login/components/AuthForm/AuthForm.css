@@ -6,12 +6,11 @@
     height: 100vh;
 }
 
-
 .login-logo img {
     width: 300px;
     height: auto;
     border-radius: 40px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
 .auth-form .input-form {
@@ -85,6 +84,12 @@
     background-color: #0056b3;
 }
 
+.forgot-password {
+    text-align: center;
+    cursor: pointer;
+    margin-left: 10%;
+    margin-right: 10%;
+}
 
 @media (max-width: 480px) {
     .auth-form .input-form {
