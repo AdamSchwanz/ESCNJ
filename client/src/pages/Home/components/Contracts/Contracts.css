@@ -1,0 +1,22 @@
+.home .contracts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid red;
+    padding: 20px;
+    max-height: 40vh;
+    overflow-y: auto;
+    width: fit-content;
+}
+
+.home .contract {
+    border: 1px solid black;
+    padding: 10px;
+    box-sizing: border-box;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.home .contract:hover {
+    border-color: blue;
+}

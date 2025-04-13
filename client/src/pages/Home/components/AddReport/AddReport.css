@@ -1,0 +1,20 @@
+.List {
+    border: 1px solid #d9dddd;
+}
+
+.ListItemEven,
+.ListItemOdd {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.ListItemEven:hover,
+.ListItemOdd:hover {
+    opacity: 0.7;
+}
+
+.ListItemEven {
+    background-color: #f8f8f0;
+}
