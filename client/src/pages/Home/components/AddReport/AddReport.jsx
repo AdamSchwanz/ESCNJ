@@ -107,12 +107,12 @@ const AddReport = ({ contractId }) => {
                             height={150}
                             itemCount={members.length}
                             itemSize={35}
-                            width={300}
+                            width={450}
                         >
                             {Row}
                         </List>
                     }
-                    {errors.MemberEntityID && <div>{errors.MemberEntityID}</div>}
+                    {errors.MemberEntityID && <div className="error">{errors.MemberEntityID}</div>}
                 </div>
                 <div className='input-container'>
                     <label htmlFor='ReportItem' className='label'>Item</label>
@@ -124,7 +124,7 @@ const AddReport = ({ contractId }) => {
                         value={formData.ReportItem}
                         onChange={handleChange}
                     />
-                    {errors.ReportItem && <div>{errors.ReportItem}</div>}
+                    {errors.ReportItem && <div className="error">{errors.ReportItem}</div>}
                 </div>
                 <div className='input-container'>
                     <label htmlFor='ReportAmount' className='label'>Amount</label>
@@ -136,9 +136,9 @@ const AddReport = ({ contractId }) => {
                         value={formData.ReportAmount}
                         onChange={handleChange}
                     />
-                    {errors.ReportAmount && <div>{errors.ReportAmount}</div>}
+                    {errors.ReportAmount && <div className="error">{errors.ReportAmount}</div>}
                 </div>
-                <button onClick={handleSubmit}>Add Report</button>
+                <button className="add-report-button" onClick={handleSubmit}>Add Report</button>
             </div>
         </div>
     )

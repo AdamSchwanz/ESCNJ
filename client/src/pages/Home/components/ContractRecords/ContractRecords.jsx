@@ -17,7 +17,7 @@ const ContractRecords = ({ records, contractId }) => {
 
     return (
         <div className='contract-records'>
-            <button onClick={handleClick}>Add New Report</button>
+            <button className="new-report-button" onClick={handleClick}>Add New Report</button>
             {(records && records.length > 0) &&
                 <ContractRecordsTable records={records} />
             }

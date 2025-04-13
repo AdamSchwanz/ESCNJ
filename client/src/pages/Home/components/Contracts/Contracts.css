@@ -1,12 +1,19 @@
+.home .contract-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .home .contracts {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    border: 1px solid red;
+    border: 1px solid black;
     padding: 20px;
     max-height: 40vh;
     overflow-y: auto;
-    width: fit-content;
+    width: 40%;
 }
 
 .home .contract {
@@ -15,8 +22,18 @@
     box-sizing: border-box;
     width: fit-content;
     cursor: pointer;
+    width: 100%;
+    text-align: center;
 }
 
 .home .contract:hover {
     border-color: blue;
+    background-color: blue;
+    color: white;
+}
+
+@media (max-width: 480px) {
+    .home .contracts {
+        width: 90%;
+    }
 }
