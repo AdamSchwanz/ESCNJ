@@ -64,24 +64,26 @@ const Contracts = () => {
 
     return (
         <>
-            {state === "loading" ?
-                <></>
-                : state === "done" && (!contracts || contracts.length <= 0) ?
-                    <div>No active contracts.</div>
-                    :
-                    <>
-                        <div className="contracts">
-                            {contracts.map((contract, index) => (
-                                <div key={index} className='contract' onClick={() => handleContractClick(contract.ContractID)}>
-                                    <div>Name: {contract.ContractName}</div>
-                                    <div>Start Date: {formatDate(contract.StartDate)}</div>
-                                    <div>End Date: {formatDate(contract.EndDate)}</div>
-                                </div>
-                            ))}
-                        </div>
-                        <ContractRecords records={records} contractId={selectedContract} />
-                    </>
-            }
+            <div className="contract-wrapper">
+                {state === "loading" ?
+                    <></>
+                    : state === "done" && (!contracts || contracts.length <= 0) ?
+                        <div>No active contracts.</div>
+                        :
+                        <>
+                            <div className="contracts">
+                                {contracts.map((contract, index) => (
+                                    <div key={index} className='contract' onClick={() => handleContractClick(contract.ContractID)}>
+                                        <div>Name: {contract.ContractName}</div>
+                                        <div>Start Date: {formatDate(contract.StartDate)}</div>
+                                        <div>End Date: {formatDate(contract.EndDate)}</div>
+                                    </div>
+                                ))}
+                            </div>
+                            <ContractRecords records={records} contractId={selectedContract} />
+                        </>
+                }
+            </div>
         </>
     )
 };

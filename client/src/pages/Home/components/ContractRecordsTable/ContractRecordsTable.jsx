@@ -6,10 +6,10 @@ const ContractRecordsTable = ({ records }) => {
         <table className="contract-records-table">
             <thead>
                 <tr>
-                    <th>Member Name</th>
-                    <th>Item</th>
-                    <th>Amount</th>
-                    <th>Action</th>
+                    <th style={{ width: '50%' }}>Member Name</th>
+                    <th style={{ width: '30%' }}>Item</th>
+                    <th style={{ width: '10%' }}>Amount</th>
+                    <th style={{ width: '10%' }}>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,15 +18,19 @@ const ContractRecordsTable = ({ records }) => {
                         <td>{record.EntityName}</td>
                         <td>{record.ReportItem}</td>
                         <td>{record.ReportAmount}</td>
-                        <td>
-                            <MdEdit size={22} className='icon' />
-                            <MdDelete size={22} className='icon' />
+                        <td className="table-action">
+                            <div className="table-action-icon">
+                                <MdEdit size={22} className='icon' />
+                            </div>
+                            <div className="table-action-icon">
+                                <MdDelete size={22} className='icon' />
+                            </div>
                         </td>
                     </tr>
                 ))}
             </tbody>
 
-        </table>
+        </table >
 
     )
 };
