@@ -30,20 +30,20 @@ const Contracts = () => {
         fetchContracts();
     }, []);
 
-    useEffect(() => {
-        const fetchRecordsByContract = async () => {
-            try {
-                dispatch(ShowLoading());
-                const response = await contractService.getRecordsByContract(selectedContract);
-                console.log("Response: ", response);
-                setRecords(response.records);
-            } catch (error) {
-                console.log("Error: ", error?.response?.data?.error || "Something Went Wrong!");
-            } finally {
-                dispatch(HideLoading());
-            }
-        };
+    const fetchRecordsByContract = async () => {
+        try {
+            dispatch(ShowLoading());
+            const response = await contractService.getRecordsByContract(selectedContract);
+            console.log("Response: ", response);
+            setRecords(response.records);
+        } catch (error) {
+            console.log("Error: ", error?.response?.data?.error || "Something Went Wrong!");
+        } finally {
+            dispatch(HideLoading());
+        }
+    };
 
+    useEffect(() => {
         if (selectedContract) {
             fetchRecordsByContract();
         }
@@ -73,14 +73,14 @@ const Contracts = () => {
                         <>
                             <div className="contracts">
                                 {contracts.map((contract, index) => (
-                                    <div key={index} className='contract' onClick={() => handleContractClick(contract.ContractID)}>
+                                    <div key={index} className={`contract ${selectedContract === contract.ContractID ? 'selected-contract' : 'non-selected-contract'}`} onClick={() => handleContractClick(contract.ContractID)}>
                                         <div>Name: {contract.ContractName}</div>
                                         <div>Start Date: {formatDate(contract.StartDate)}</div>
                                         <div>End Date: {formatDate(contract.EndDate)}</div>
                                     </div>
                                 ))}
                             </div>
-                            <ContractRecords records={records} contractId={selectedContract} />
+                            <ContractRecords records={records} contractId={selectedContract} fetchRecordsByContract={fetchRecordsByContract} />
                         </>
                 }
             </div>

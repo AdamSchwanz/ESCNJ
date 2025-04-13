@@ -45,8 +45,33 @@ const getMembersList = async () => {
     }
 };
 
+const addRecord = async (data) => {
+    const { ContractID, MemberEntityID, ReportAmount, ReportItem } = data;
+    const result = await sql.query(
+        `Select CurrentQtr from dbo.S_DefaultT`
+    );
+    console.log("Result: ", result.recordset);
+    if (result.recordset && result.recordset.length > 0) {
+        const CurrentQtr = result.recordset[0].CurrentQtr;
+        console.log("CurrentQtr: ", CurrentQtr);
+        const result2 = await sql.query(
+            `Insert Into dbo.ReportT (ContractID, MemberEntityID, ReportItem, ReportAmount, ReportQtr) Values (${ContractID},${MemberEntityID},'${ReportItem}',${ReportAmount},'${CurrentQtr}')`
+        );
+        if (result2.rowsAffected[0] <= 0) {
+            const error = new Error("Unable To Add Record!");
+            error.code = 400;
+            throw error;
+        }
+    } else {
+        const error = new Error("Default Quater Not Found!");
+        error.code = 404;
+        throw error;
+    }
+};
+
 module.exports = {
     getContracts,
     getRecordsByContract,
-    getMembersList
+    getMembersList,
+    addRecord
 };

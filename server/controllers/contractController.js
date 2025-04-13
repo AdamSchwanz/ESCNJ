@@ -29,8 +29,19 @@ const GetMembersList = async (req, res, next) => {
     }
 };
 
+const AddRecord = async (req, res, next) => {
+    try {
+        const data = { ...req.body };
+        await contractService.addRecord(data);
+        res.status(200).json({ message: "Report Added Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     GetContracts,
     GetRecordsByContract,
-    GetMembersList
+    GetMembersList,
+    AddRecord
 };

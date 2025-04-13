@@ -4,7 +4,7 @@ import ContractRecordsTable from '../ContractRecordsTable/ContractRecordsTable';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
 import AddReport from '../AddReport/AddReport';
 
-const ContractRecords = ({ records, contractId }) => {
+const ContractRecords = ({ records, contractId, fetchRecordsByContract }) => {
     const [showAddModal, setShowAddModal] = useState(false);
 
     const handleClick = () => {
@@ -17,12 +17,12 @@ const ContractRecords = ({ records, contractId }) => {
 
     return (
         <div className='contract-records'>
-            <button className="new-report-button" onClick={handleClick}>Add New Report</button>
+            {contractId && <button className="new-report-button" onClick={handleClick}>Add New Report</button>}
             {(records && records.length > 0) &&
                 <ContractRecordsTable records={records} />
             }
             <CustomModal isOpen={showAddModal} onRequestClose={handleAddModalClose} contentLabel="Add Report" width='40%'>
-                <AddReport contractId={contractId} />
+                <AddReport contractId={contractId} handleAddModalClose={handleAddModalClose} fetchRecordsByContract={fetchRecordsByContract} />
             </CustomModal>
         </div>
     )

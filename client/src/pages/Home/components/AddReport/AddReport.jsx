@@ -3,9 +3,10 @@ import './AddReport.css';
 import { useDispatch } from 'react-redux';
 import { HideLoading, ShowLoading } from '../../../../redux/loaderSlice';
 import { FixedSizeList as List } from 'react-window';
+import { message } from 'antd';
 import contractService from '../../../../services/contractService';
 
-const AddReport = ({ contractId }) => {
+const AddReport = ({ contractId, handleAddModalClose, fetchRecordsByContract }) => {
     const [formData, setFormData] = useState({
         MemberEntityID: 0,
         ReportItem: '',
@@ -16,8 +17,11 @@ const AddReport = ({ contractId }) => {
         ReportItem: '',
         ReportAmount: ''
     });
+    const [query, setQuery] = useState('');
+    const [selectedMember, setSelectedMember] = useState('');
     const [showList, setShowList] = useState(false);
     const [members, setMembers] = useState([]);
+    const [filteredMembers, setFilteredMembers] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -36,6 +40,22 @@ const AddReport = ({ contractId }) => {
 
         fetchMembersList();
     }, []);
+
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            if (query.trim()) {
+                const lowerQuery = query.toLowerCase();
+                const filtered = members.filter(member =>
+                    member.EntityName.toLowerCase().includes(lowerQuery)
+                );
+                setFilteredMembers(filtered);
+            } else {
+                setFilteredMembers(members);
+            }
+        }, 300);
+
+        return () => clearTimeout(delayDebounce);
+    }, [query, members]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -58,7 +78,7 @@ const AddReport = ({ contractId }) => {
         } else {
             newErrors.ReportItem = "";
         }
-        if (ReportAmount <= 0) {
+        if (!ReportAmount || ReportAmount <= 0) {
             newErrors.ReportAmount = "Please enter a valid amount";
             hasErrors = true;
         } else {
@@ -72,18 +92,46 @@ const AddReport = ({ contractId }) => {
         if (!validateData()) {
             return;
         }
-        console.log("Form Data: ", formData);
+        const data = {
+            ...formData,
+            ReportAmount: parseFloat(formData.ReportAmount),
+            ContractID: contractId
+        }
+        console.log("Data: ", data);
+        try {
+            dispatch(ShowLoading());
+            const response = await contractService.addRecord(data);
+            console.log("Response: ", response);
+            message.success(response.message);
+            handleAddModalClose();
+            fetchRecordsByContract();
+        } catch (error) {
+            message.error(error?.response?.data?.error || "Something Went Wrong!");
+        } finally {
+            dispatch(HideLoading());
+        }
     };
 
-    const handleMemberSelect = (memberId) => {
-        console.log("Selected Member: ", memberId);
+    const handleMemberSelect = (member) => {
+        console.log("Selected Member: ", member);
+        setFormData((prevState) => ({ ...prevState, MemberEntityID: member.EntityID }));
+        setSelectedMember(member.EntityName);
+        setQuery('');
     };
 
     const Row = ({ index, style }) => (
-        <div key={members[index].EntityID} id={members[index].EntityID} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style} onClick={() => handleMemberSelect(members[index].EntityID)}>
-            {members[index].EntityName}
+        <div className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style} onClick={() => handleMemberSelect(filteredMembers[index])}>
+            {filteredMembers[index].EntityName}
         </div>
     );
+
+    const handleInputBlur = () => {
+        setTimeout(() => setShowList(false), 150);
+    };
+
+    const handleQueryChange = (e) => {
+        setQuery(e.target.value);
+    };
 
     return (
         <div className="add-report">
@@ -96,16 +144,16 @@ const AddReport = ({ contractId }) => {
                         className='input'
                         id='MemberEntityID'
                         name='MemberEntityID'
-                        value={formData.MemberEntityID}
-                        onChange={handleChange}
+                        value={showList ? query : selectedMember ? selectedMember : "Please Select Member"}
+                        onChange={handleQueryChange}
                         onFocus={() => setShowList(true)}
-                        onBlur={() => setShowList(false)}
+                        onBlur={handleInputBlur}
                     />
-                    {!showList &&
+                    {showList &&
                         <List
                             className="List"
                             height={150}
-                            itemCount={members.length}
+                            itemCount={filteredMembers.length}
                             itemSize={35}
                             width={450}
                         >

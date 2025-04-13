@@ -27,6 +27,14 @@ const contractService = {
             throw error;
         }
     },
+    addRecord: async (payload) => {
+        try {
+            const response = await axiosInstance.post(`${BASE_URL}/add-record`, payload);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 }
 
 export default contractService;

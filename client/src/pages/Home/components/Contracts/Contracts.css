@@ -26,7 +26,13 @@
     text-align: center;
 }
 
-.home .contract:hover {
+.home .selected-contract {
+    border-color: rgb(23, 174, 23);
+    background-color: rgb(23, 174, 23);
+    color: white;
+}
+
+.home .non-selected-contract:hover {
     border-color: blue;
     background-color: blue;
     color: white;

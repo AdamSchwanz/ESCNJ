@@ -1,5 +1,6 @@
 import './ContractRecordsTable.css';
 import { MdEdit, MdDelete } from "react-icons/md";
+import { Popconfirm } from 'antd';
 
 const ContractRecordsTable = ({ records }) => {
     return (
@@ -22,9 +23,18 @@ const ContractRecordsTable = ({ records }) => {
                             <div className="table-action-icon">
                                 <MdEdit size={22} className='icon' />
                             </div>
-                            <div className="table-action-icon">
-                                <MdDelete size={22} className='icon' />
-                            </div>
+                            <Popconfirm
+                                title="Delete the report"
+                                description="Are you sure to delete this report?"
+                                onConfirm={() => { }}
+                                onCancel={() => { }}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <div className="table-action-icon">
+                                    <MdDelete size={22} className='icon' />
+                                </div>
+                            </Popconfirm>
                         </td>
                     </tr>
                 ))}

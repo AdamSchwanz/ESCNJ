@@ -23,5 +23,11 @@ router.get(
     controller.GetMembersList
 );
 
+router.post(
+    "/add-record",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateRequest(contractSchemas.addRecord),
+    controller.AddRecord
+);
 
 module.exports = router;
