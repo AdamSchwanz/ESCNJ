@@ -6,7 +6,6 @@ const loginUser = async (loginData) => {
     const result = await sql.query(
         `Select * From dbo.EntityT Where Username='${username}' and IsActive=1`
     );
-    console.log("Result: ", result.recordset);
     if (result.recordset && result.recordset.length > 0) {
         const user = result.recordset[0];
         if (!user.TempPassword) {
@@ -48,7 +47,6 @@ const setPassword = async (userData) => {
     const result = await sql.query(
         `Select * From dbo.EntityT Where Username='${username}' and IsActive=1`
     );
-    console.log("Result: ", result.recordset);
     if (result.recordset && result.recordset.length > 0) {
         const user = result.recordset[0];
         if (!user.TempPassword) {
@@ -83,7 +81,6 @@ const fetchOwnerEmail = async () => {
     const result = await sql.query(
         `Select ResetEmail From dbo.S_DefaultT`
     );
-    console.log("Result: ", result.recordset);
     if (result.recordset && result.recordset.length > 0) {
         const defaultConfig = result.recordset[0];
         if (!defaultConfig.ResetEmail) {

@@ -4,7 +4,6 @@ const getContracts = async (id) => {
     const result = await sql.query(
         `Select * From dbo.ContractT Where EntityID=${id} and IsActive=1`
     );
-    console.log("Result: ", result.recordset);
     if (result.recordset && result.recordset.length > 0) {
         const contracts = result.recordset;
         return contracts;
@@ -17,14 +16,23 @@ const getContracts = async (id) => {
 
 const getRecordsByContract = async (contractId) => {
     const result = await sql.query(
-        `Select * From dbo.ReportQ Where ContractID=${contractId}`
+        `Select CurrentQtr from dbo.S_DefaultT`
     );
-    console.log("Result: ", result.recordset);
     if (result.recordset && result.recordset.length > 0) {
-        const records = result.recordset;
-        return records;
+        const CurrentQtr = result.recordset[0].CurrentQtr;
+        const result2 = await sql.query(
+            `Select * From dbo.ReportQ Where ContractID=${contractId} and ReportQtr='${CurrentQtr}'`
+        );
+        if (result2.recordset && result2.recordset.length > 0) {
+            const records = result2.recordset;
+            return records;
+        } else {
+            const error = new Error("Records Not Found Against This Contract!");
+            error.code = 404;
+            throw error;
+        }
     } else {
-        const error = new Error("Records Not Found Against This Contract!");
+        const error = new Error("Default Quater Not Found!");
         error.code = 404;
         throw error;
     }
@@ -34,7 +42,6 @@ const getMembersList = async () => {
     const result = await sql.query(
         `Select EntityID, EntityName From dbo.EntityT Where EntityGroup='Member'`
     );
-    console.log("Result: ", result.recordset);
     if (result.recordset && result.recordset.length > 0) {
         const members = result.recordset;
         return members;
@@ -50,7 +57,6 @@ const addRecord = async (data) => {
     const result = await sql.query(
         `Select CurrentQtr from dbo.S_DefaultT`
     );
-    console.log("Result: ", result.recordset);
     if (result.recordset && result.recordset.length > 0) {
         const CurrentQtr = result.recordset[0].CurrentQtr;
         console.log("CurrentQtr: ", CurrentQtr);
