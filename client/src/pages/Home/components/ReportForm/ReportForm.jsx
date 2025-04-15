@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import './AddReport.css';
+import './ReportForm.css';
 import { useDispatch } from 'react-redux';
 import { HideLoading, ShowLoading } from '../../../../redux/loaderSlice';
 import { FixedSizeList as List } from 'react-window';
 import { message } from 'antd';
 import contractService from '../../../../services/contractService';
 
-const AddReport = ({ contractId, handleAddModalClose, fetchRecordsByContract }) => {
+const ReportForm = ({ contractId, handleModalClose, fetchRecordsByContract, editReport }) => {
     const [formData, setFormData] = useState({
-        MemberEntityID: 0,
-        ReportItem: '',
-        ReportAmount: 0
+        MemberEntityID: editReport?.MemberEntityID ? editReport.MemberEntityID : 0,
+        ReportItem: editReport?.ReportItem ? editReport.ReportItem : '',
+        ReportAmount: editReport?.ReportAmount ? editReport.ReportAmount : 0
     });
     const [errors, setErrors] = useState({
         MemberEntityID: '',
@@ -18,13 +18,14 @@ const AddReport = ({ contractId, handleAddModalClose, fetchRecordsByContract }) 
         ReportAmount: ''
     });
     const [query, setQuery] = useState('');
-    const [selectedMember, setSelectedMember] = useState('');
+    const [selectedMember, setSelectedMember] = useState(editReport?.EntityName ? editReport?.EntityName : '');
     const [showList, setShowList] = useState(false);
     const [members, setMembers] = useState([]);
     const [filteredMembers, setFilteredMembers] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
+        console.log("Fetch Members Effect running...");
         const fetchMembersList = async () => {
             try {
                 dispatch(ShowLoading());
@@ -98,17 +99,33 @@ const AddReport = ({ contractId, handleAddModalClose, fetchRecordsByContract }) 
             ContractID: contractId
         }
         console.log("Data: ", data);
-        try {
-            dispatch(ShowLoading());
-            const response = await contractService.addRecord(data);
-            console.log("Response: ", response);
-            message.success(response.message);
-            handleAddModalClose();
-            fetchRecordsByContract();
-        } catch (error) {
-            message.error(error?.response?.data?.error || "Something Went Wrong!");
-        } finally {
-            dispatch(HideLoading());
+        if (!editReport) {
+            try {
+                dispatch(ShowLoading());
+                const response = await contractService.addRecord(data);
+                console.log("Response: ", response);
+                message.success(response.message);
+                handleModalClose();
+                fetchRecordsByContract();
+            } catch (error) {
+                message.error(error?.response?.data?.error || "Something Went Wrong!");
+            } finally {
+                dispatch(HideLoading());
+            }
+        } else {
+            delete data.ContractID;
+            try {
+                dispatch(ShowLoading());
+                const response = await contractService.updateRecord(data, editReport.ReportID);
+                console.log("Response: ", response);
+                message.success(response.message);
+                handleModalClose();
+                fetchRecordsByContract();
+            } catch (error) {
+                message.error(error?.response?.data?.error || "Something Went Wrong!");
+            } finally {
+                dispatch(HideLoading());
+            }
         }
     };
 
@@ -135,7 +152,7 @@ const AddReport = ({ contractId, handleAddModalClose, fetchRecordsByContract }) 
 
     return (
         <div className="add-report">
-            <div className='title'>Add Report</div>
+            <div className='title'>{editReport ? "Edit Report" : "Add Report"}</div>
             <div className='add-report-form'>
                 <div className='input-container'>
                     <label htmlFor='MemberEntityID' className='label'>Member</label>
@@ -186,10 +203,10 @@ const AddReport = ({ contractId, handleAddModalClose, fetchRecordsByContract }) 
                     />
                     {errors.ReportAmount && <div className="error">{errors.ReportAmount}</div>}
                 </div>
-                <button className="add-report-button" onClick={handleSubmit}>Add Report</button>
+                <button className="add-report-button" onClick={handleSubmit}>{editReport ? "Update Report" : "Add Report"}</button>
             </div>
         </div>
     )
 };
 
-export default AddReport;
+export default ReportForm;

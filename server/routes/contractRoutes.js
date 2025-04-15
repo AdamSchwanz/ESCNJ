@@ -30,4 +30,19 @@ router.post(
     controller.AddRecord
 );
 
+router.delete(
+    "/delete-record/:recordId",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateParams(contractSchemas.deleteRecord),
+    controller.DeleteRecord
+);
+
+router.patch(
+    "/update-record/:recordId",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateParams(contractSchemas.updateRecordParams),
+    validationMiddleware.validateRequest(contractSchemas.updateRecordBody),
+    controller.UpdateRecord
+);
+
 module.exports = router;

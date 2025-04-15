@@ -97,8 +97,63 @@ const fetchOwnerEmail = async () => {
     }
 };
 
+const refreshToken = async (refreshToken) => {
+    if (!refreshToken) {
+        const error = new Error("Refresh Token Not Found!");
+        error.code = 401;
+        throw error;
+    }
+    const payload = authUtils.verifyRefreshToken(refreshToken);
+    if (!payload) {
+        const error = new Error("Invalid Refresh Token!");
+        error.code = 401;
+        throw error;
+    }
+    const result = await sql.query(
+        `Select * From dbo.EntityT Where EntityID='${payload.id}'`
+    );
+    if (result.recordset && result.recordset.length > 0) {
+        const user = result.recordset[0];
+        const newPayload = { id: payload.id, username: payload.username };
+        const newAccessToken = authUtils.createAccessToken(newPayload);
+        const newRefreshToken = authUtils.createRefreshToken(newPayload);
+        await sql.query(
+            `Update dbo.EntityT Set RefreshToken='${newRefreshToken}' where EntityID=${user.EntityID}`
+        );
+        return { newAccessToken, newRefreshToken };
+    } else {
+        const error = new Error("Invalid Refresh Token!");
+        error.code = 401;
+        throw error;
+    }
+};
+
+const logoutUser = async (refreshToken) => {
+    const payload = authUtils.verifyRefreshToken(refreshToken);
+    if (!payload) {
+        const error = new Error("Invalid Refresh Token!");
+        error.code = 401;
+        throw error;
+    }
+    const result = await sql.query(
+        `Select * From dbo.EntityT Where EntityID='${payload.id}'`
+    );
+    if (result.recordset && result.recordset.length > 0) {
+        const user = result.recordset[0];
+        await sql.query(
+            `Update dbo.EntityT Set RefreshToken=NULL where EntityID=${user.EntityID}`
+        );
+    } else {
+        const error = new Error("Invalid Refresh Token!");
+        error.code = 401;
+        throw error;
+    }
+};
+
 module.exports = {
     loginUser,
     setPassword,
-    fetchOwnerEmail
+    fetchOwnerEmail,
+    refreshToken,
+    logoutUser
 };

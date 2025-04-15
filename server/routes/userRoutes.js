@@ -22,4 +22,14 @@ router.post(
     controller.ForgotPassword
 );
 
+router.post(
+    "/refresh-token",
+    controller.RefreshToken
+);
+
+router.post(
+    "/logout",
+    controller.Logout
+);
+
 module.exports = router;

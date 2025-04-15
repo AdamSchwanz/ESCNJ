@@ -37,6 +37,7 @@ const Contracts = () => {
             console.log("Response: ", response);
             setRecords(response.records);
         } catch (error) {
+            setRecords([]);
             console.log("Error: ", error?.response?.data?.error || "Something Went Wrong!");
         } finally {
             dispatch(HideLoading());

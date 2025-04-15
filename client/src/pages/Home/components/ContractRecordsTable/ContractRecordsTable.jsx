@@ -1,8 +1,39 @@
 import './ContractRecordsTable.css';
 import { MdEdit, MdDelete } from "react-icons/md";
-import { Popconfirm } from 'antd';
+import { useDispatch } from 'react-redux';
+import { HideLoading, ShowLoading } from '../../../../redux/loaderSlice';
+import { message, Popconfirm } from 'antd';
+import contractService from '../../../../services/contractService';
 
-const ContractRecordsTable = ({ records }) => {
+const ContractRecordsTable = ({ records, fetchRecordsByContract, setEditReport }) => {
+    const dispatch = useDispatch();
+
+    const handleEdit = (record) => {
+        const data = {
+            ReportID: record.ReportID,
+            ReportItem: record.ReportItem,
+            ReportAmount: record.ReportAmount,
+            MemberEntityID: record.MemberEntityID,
+            EntityName: record.EntityName
+        };
+        console.log("Record to edit: ", data);
+        setEditReport(data);
+    };
+
+    const handleDelete = async (recordId) => {
+        try {
+            dispatch(ShowLoading());
+            const response = await contractService.deleteRecord(recordId);
+            console.log("Response: ", response);
+            message.success(response.message);
+            fetchRecordsByContract();
+        } catch (error) {
+            message.error(error?.response?.data?.error || "Something Went Wrong!");
+        } finally {
+            dispatch(HideLoading());
+        }
+    };
+
     return (
         <table className="contract-records-table">
             <thead>
@@ -20,13 +51,13 @@ const ContractRecordsTable = ({ records }) => {
                         <td>{record.ReportItem}</td>
                         <td>{record.ReportAmount}</td>
                         <td className="table-action">
-                            <div className="table-action-icon">
+                            <div className="table-action-icon" onClick={() => handleEdit(record)}>
                                 <MdEdit size={22} className='icon' />
                             </div>
                             <Popconfirm
                                 title="Delete the report"
                                 description="Are you sure to delete this report?"
-                                onConfirm={() => { }}
+                                onConfirm={() => handleDelete(record.ReportID)}
                                 onCancel={() => { }}
                                 okText="Yes"
                                 cancelText="No"

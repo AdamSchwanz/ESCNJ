@@ -27,6 +27,22 @@ const userService = {
             throw error;
         }
     },
+    refreshToken: async (payload) => {
+        try {
+            const response = await axiosInstance.post(`${BASE_URL}/refresh-token`, payload, { withCredentials: true, skipAuthRefresh: true });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    logoutUser: async (payload) => {
+        try {
+            const response = await axiosInstance.post(`${BASE_URL}/logout`, payload, { withCredentials: true });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 }
 
 export default userService;

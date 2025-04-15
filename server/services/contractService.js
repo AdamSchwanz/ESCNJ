@@ -75,9 +75,34 @@ const addRecord = async (data) => {
     }
 };
 
+const deleteRecord = async (recordId) => {
+    const result = await sql.query(
+        `Delete from dbo.ReportT Where ReportID=${recordId}`
+    );
+    if (result.rowsAffected[0] <= 0) {
+        const error = new Error("Unable To Delete Report!");
+        error.code = 400;
+        throw error;
+    }
+};
+
+const updateRecord = async (data, recordId) => {
+    const { MemberEntityID, ReportItem, ReportAmount } = data;
+    const result = await sql.query(
+        `Update dbo.ReportT set MemberEntityID=${MemberEntityID}, ReportItem='${ReportItem}',ReportAmount=${ReportAmount} where ReportID=${recordId}`
+    );
+    if (result.rowsAffected[0] <= 0) {
+        const error = new Error("Unable To Update Report!");
+        error.code = 400;
+        throw error;
+    }
+};
+
 module.exports = {
     getContracts,
     getRecordsByContract,
     getMembersList,
-    addRecord
+    addRecord,
+    deleteRecord,
+    updateRecord
 };

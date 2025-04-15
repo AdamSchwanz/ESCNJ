@@ -35,6 +35,22 @@ const contractService = {
             throw error;
         }
     },
+    deleteRecord: async (recordId) => {
+        try {
+            const response = await axiosInstance.delete(`${BASE_URL}/delete-record/${recordId}`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    updateRecord: async (payload, recordId) => {
+        try {
+            const response = await axiosInstance.patch(`${BASE_URL}/update-record/${recordId}`, payload);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default contractService;

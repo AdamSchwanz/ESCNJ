@@ -50,7 +50,7 @@ axiosInstance.interceptors.response.use(
                 isRefreshing = true;
                 try {
                     console.log('Refreshing token...');
-                    const response = await userService.refreshToken();
+                    const response = await userService.refreshToken({});
                     const { token } = response;
                     Cookies.set('escnj-jwt-token', token);
                     console.log('Refresh token done!');
