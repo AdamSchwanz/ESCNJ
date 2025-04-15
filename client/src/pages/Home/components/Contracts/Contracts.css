@@ -1,45 +1,45 @@
 .home .contract-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .home .contracts {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border: 1px solid black;
-    padding: 20px;
-    max-height: 40vh;
-    overflow-y: auto;
-    width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid black;
+  padding: 20px;
+  max-height: 40vh;
+  overflow-y: auto;
+  width: 40%;
 }
 
 .home .contract {
-    border: 1px solid black;
-    padding: 10px;
-    box-sizing: border-box;
-    width: fit-content;
-    cursor: pointer;
-    width: 100%;
-    text-align: center;
+  border: 1px solid black;
+  padding: 10px;
+  box-sizing: border-box;
+  width: fit-content;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
 }
 
 .home .selected-contract {
-    border-color: rgb(23, 174, 23);
-    background-color: rgb(23, 174, 23);
-    color: white;
+  border-color: rgb(24, 67, 131);
+  background-color: rgb(24, 67, 131);
+  color: white;
 }
 
 .home .non-selected-contract:hover {
-    border-color: blue;
-    background-color: blue;
-    color: white;
+  border-color: blue;
+  background-color: blue;
+  color: white;
 }
 
 @media (max-width: 480px) {
-    .home .contracts {
-        width: 90%;
-    }
+  .home .contracts {
+    width: 90%;
+  }
 }
