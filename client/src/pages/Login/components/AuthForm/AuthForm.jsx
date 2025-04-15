@@ -57,8 +57,9 @@ const AuthForm = () => {
     return !hasErrors;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     // console.log("Form Data: ", formData);
+    e.preventDefault();
     if (!validateData()) {
       setErrors((prevState) => ({ ...prevState, login: "" }));
       return;
@@ -102,7 +103,7 @@ const AuthForm = () => {
           <img src={ESCNJLogo}></img>
         </div>
         {selectedView === "login" ? (
-          <div className="input-form">
+          <form className="input-form" onSubmit={handleSubmit}>
             <div className="input-container">
               <label htmlFor="username" className="label">
                 Username
@@ -145,7 +146,7 @@ const AuthForm = () => {
               )}
             </div>
             <div className="input-container">
-              <button onClick={handleSubmit}>Login</button>
+              <button type="submit">Login</button>
               {errors.login && <div className="error">{errors.login}</div>}
             </div>
             <div
@@ -154,7 +155,7 @@ const AuthForm = () => {
             >
               Forgot your password?
             </div>
-          </div>
+          </form>
         ) : (
           <ForgotPassword setSelectedView={setSelectedView} />
         )}
