@@ -1,20 +1,20 @@
-const transporter = require("../configs/nodemailer.config");
+const sgMail = require('../configs/sendgrid.config');
 
 const sendEmail = async (to, subject, text, html) => {
   try {
     const mailOptions = {
-      from: process.env.SENDER_EMAIL,
       to,
+      from: process.env.SENDER_EMAIL, // This email must be verified with SendGrid
       subject,
       ...(text && { text }),
       ...(html && { html }),
     };
 
-    const info = await transporter.sendMail(mailOptions);
-    // console.log('Email sent: ', info.messageId);
+    const [response] = await sgMail.send(mailOptions);
+    console.log('Email sent with status code:', response.statusCode);
   } catch (error) {
-    console.error("Error sending email: ", error);
-    const newError = new Error("Unable to send email!");
+    console.error('Error sending email: ', error.response?.body || error.message);
+    const newError = new Error('Unable to send email!');
     newError.code = 500;
     throw newError;
   }
