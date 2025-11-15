@@ -1,27 +1,4 @@
-.List {
-    border: 1px solid #d9dddd;
-    margin-top: 10px;
-}
-
-.ListItemEven,
-.ListItemOdd {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.ListItemEven:hover,
-.ListItemOdd:hover {
-    background-color: blue;
-    color: white;
-}
-
-.ListItemEven {
-    background-color: #f8f8f0;
-}
-
-.add-report {
+.add-contact {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -29,35 +6,35 @@
     text-align: center;
 }
 
-.add-report .error {
+.add-contact .error {
     color: red;
 }
 
-.add-report .title {
+.add-contact .title {
     font-size: 30px;
     margin-bottom: 10px;
     font-weight: bold;
 }
 
-.add-report .input-container {
+.add-contact .input-container {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.add-report .label {
+.add-contact .label {
     width: 40%;
 }
 
-.add-report .input {
+.add-contact .input {
     width: 80%;
 }
 
-.add-report .add-report-form {
+.add-contact .add-contact-form {
     width: 90%;
 }
 
-.add-report .add-report-button {
+.add-contact .add-contact-button {
     padding: 10px;
     background-color: rgb(24, 67, 131);
     color: white;
@@ -69,11 +46,11 @@
     margin-bottom: 10px;
 }
 
-.add-report .add-report-button:hover {
+.add-contact .add-contact-button:hover {
     background-color: #0056b3;
 }
 
-.add-report .input-container {
+.add-contact .input-container {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
@@ -81,12 +58,12 @@
     font-size: 20px;
 }
 
-.add-report .input-label {
+.add-contact .input-label {
     width: 20%;
     text-align: center
 }
 
-.add-report .input {
+.add-contact .input {
     padding: 8px 12px;
     border: 1px solid #ccc;
     border-radius: 4px;

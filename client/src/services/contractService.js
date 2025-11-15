@@ -75,6 +75,46 @@ const contractService = {
             throw error;
         }
     },
+    updateUserLog: async (payload) => {
+        try {
+            const response = await axiosInstance.patch(`${BASE_URL}/update-user-log`, payload);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    getContacts: async () => {
+        try {
+            const response = await axiosInstance.get(`${BASE_URL}/get-contacts`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    addContact: async (payload) => {
+        try {
+            const response = await axiosInstance.post(`${BASE_URL}/add-contact`, payload);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    updateContact: async (contactId, payload) => {
+        try {
+            const response = await axiosInstance.put(`${BASE_URL}/update-contact/${contactId}`, payload);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    deleteContact: async (contactId) => {
+        try {
+            const response = await axiosInstance.delete(`${BASE_URL}/delete-contact/${contactId}`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 }
 
 export default contractService;

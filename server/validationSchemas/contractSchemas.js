@@ -25,10 +25,39 @@ const updateRecordBody = yup.object().shape({
     ReportItem: yup.string().trim().required('Report Item is required'),
 });
 
+const updateUserLog = yup.object().shape({
+    name: yup.string().trim().required('Name is required'),
+});
+
+const addContact = yup.object().shape({
+    firstName: yup.string().trim().required('First Name is required'),
+    lastName: yup.string().trim().required('Last Name is required'),
+    email: yup.string().trim().required('Email is required'),
+});
+
+const updateContactParams = yup.object().shape({
+    contactId: yup.number().required('Contact ID is required'),
+});
+
+const updateContactBody = yup.object().shape({
+    firstName: yup.string().trim().required('First Name is required'),
+    lastName: yup.string().trim().required('Last Name is required'),
+    email: yup.string().trim().required('Email is required'),
+});
+
+const deleteContact = yup.object().shape({
+    contactId: yup.number().required('Contact ID is required'),
+});
+
 module.exports = {
     getRecords,
     addRecord,
     deleteRecord,
     updateRecordParams,
     updateRecordBody,
+    updateUserLog,
+    addContact,
+    updateContactParams,
+    updateContactBody,
+    deleteContact
 };

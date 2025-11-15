@@ -63,4 +63,39 @@ router.get(
     controller.GetContactInfo
 );
 
+router.patch(
+    "/update-user-log",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateRequest(contractSchemas.updateUserLog),
+    controller.UpdateUserLog
+);
+
+router.get(
+    "/get-contacts",
+    authMiddleware.authenticateRequest,
+    controller.GetContacts
+);
+
+router.post(
+    "/add-contact",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateRequest(contractSchemas.addContact),
+    controller.AddContact
+);
+
+router.put(
+    "/update-contact/:contactId",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateParams(contractSchemas.updateContactParams),
+    validationMiddleware.validateRequest(contractSchemas.updateContactBody),
+    controller.UpdateContact
+);
+
+router.delete(
+    "/delete-contact/:contactId",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateParams(contractSchemas.deleteContact),
+    controller.DeleteContact
+);
+
 module.exports = router;

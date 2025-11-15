@@ -183,6 +183,7 @@ const ReportForm = ({
                         className="input"
                         id="MemberEntityID"
                         name="MemberEntityID"
+                        autoComplete="off"
                         value={
                             showList
                                 ? query
@@ -218,6 +219,7 @@ const ReportForm = ({
                         className="input"
                         id="ReportItem"
                         name="ReportItem"
+                        autoComplete="off"
                         value={formData.ReportItem}
                         onChange={handleChange}
                     />

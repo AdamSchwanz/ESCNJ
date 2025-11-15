@@ -143,6 +143,77 @@ const getContactInfo = async (entityId) => {
   }
 };
 
+const updateUserLog = async (entityId, name) => {
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // months are 0-based
+  const year = date.getFullYear();
+
+  const formatted = `${month}-${day}-${year}`;
+
+  const result = await sql.query(
+    `Update dbo.EntityT set UserLastChanged='${formatted}', UserVerifiedBy='${name}' where EntityID=${entityId}`
+  );
+
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Update User Log!");
+    error.code = 400;
+    throw error;
+  }
+};
+
+const getContacts = async (entityId) => {
+  const result = await sql.query(
+    `Select ContactID, FirstName, LastName, Email from dbo.ContactT where EntityID=${entityId}`
+  );
+
+  if (result.recordset && result.recordset.length > 0) {
+    const contacts = result.recordset;
+    return contacts;
+  } else {
+    const error = new Error("Conatcts Not Found!");
+    error.code = 404;
+    throw error;
+  }
+};
+
+const addContact = async (entityId, data) => {
+  const { firstName, lastName, email } = data;
+  const result = await sql.query(
+    `Insert into dbo.ContactT (EntityID, FirstName, LastName, Email) VALUES (${entityId},'${firstName}','${lastName}','${email}')`
+  );
+
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Add Contact!");
+    error.code = 400;
+    throw error;
+  }
+};
+
+const updateContact = async (contactId, data) => {
+  const { firstName, lastName, email } = data;
+  const result = await sql.query(
+    `Update dbo.ContactT set FirstName='${firstName}', LastName='${lastName}', Email='${email}' where ContactID=${contactId}`
+  );
+
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Update Contact!");
+    error.code = 400;
+    throw error;
+  }
+};
+
+const deleteContact = async (contactId) => {
+  const result = await sql.query(
+    `Delete from dbo.ContactT Where ContactID=${contactId}`
+  );
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Delete Contact!");
+    error.code = 400;
+    throw error;
+  }
+};
+
 module.exports = {
   getContracts,
   getRecordsByContract,
@@ -152,5 +223,10 @@ module.exports = {
   updateRecord,
   getContactLastView,
   updateContactLastView,
-  getContactInfo
+  getContactInfo,
+  updateUserLog,
+  getContacts,
+  addContact,
+  updateContact,
+  deleteContact
 };

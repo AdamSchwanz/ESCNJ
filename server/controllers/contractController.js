@@ -90,6 +90,59 @@ const GetContactInfo = async (req, res, next) => {
     }
 };
 
+const UpdateUserLog = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const { name } = req.body;
+        await contractService.updateUserLog(id, name);
+        res.status(200).json({ message: "User Log Updated Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const GetContacts = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const contacts = await contractService.getContacts(id);
+        res.status(200).json({ contacts });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const AddContact = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const data = req.body;
+        await contractService.addContact(id, data);
+        res.status(201).json({ message: "Contact Added Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const UpdateContact = async (req, res, next) => {
+    try {
+        const { contactId } = req.params;
+        const data = req.body;
+        await contractService.updateContact(contactId, data);
+        res.status(200).json({ message: "Contact Updated Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const DeleteContact = async (req, res, next) => {
+    try {
+        const { contactId } = req.params;
+        await contractService.deleteContact(contactId);
+        res.status(200).json({ message: "Contact Deleted Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     GetContracts,
     GetRecordsByContract,
@@ -99,5 +152,10 @@ module.exports = {
     UpdateRecord,
     GetContactLastView,
     UpdateContactLastView,
-    GetContactInfo
+    GetContactInfo,
+    UpdateUserLog,
+    GetContacts,
+    AddContact,
+    UpdateContact,
+    DeleteContact
 };
