@@ -50,7 +50,31 @@ const contractService = {
         } catch (error) {
             throw error;
         }
-    }
+    },
+    getContactLastView: async () => {
+        try {
+            const response = await axiosInstance.get(`${BASE_URL}/get-contact-last-view`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    updateContactLastView: async () => {
+        try {
+            const response = await axiosInstance.patch(`${BASE_URL}/update-contact-last-view`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    getContactInfo: async () => {
+        try {
+            const response = await axiosInstance.get(`${BASE_URL}/get-contact-info`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 }
 
 export default contractService;

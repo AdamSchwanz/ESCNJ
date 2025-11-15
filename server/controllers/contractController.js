@@ -60,11 +60,44 @@ const UpdateRecord = async (req, res, next) => {
     }
 };
 
+const GetContactLastView = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const lastView = await contractService.getContactLastView(id);
+        res.status(200).json({ lastView });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const UpdateContactLastView = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        await contractService.updateContactLastView(id);
+        res.status(200).json({ message: "Last View Updated Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const GetContactInfo = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const contactInfo = await contractService.getContactInfo(id);
+        res.status(200).json({ contactInfo });
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     GetContracts,
     GetRecordsByContract,
     GetMembersList,
     AddRecord,
     DeleteRecord,
-    UpdateRecord
+    UpdateRecord,
+    GetContactLastView,
+    UpdateContactLastView,
+    GetContactInfo
 };

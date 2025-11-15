@@ -30,5 +30,5 @@ module.exports = {
     addRecord,
     deleteRecord,
     updateRecordParams,
-    updateRecordBody
+    updateRecordBody,
 };

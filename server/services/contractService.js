@@ -38,7 +38,7 @@ const getRecordsByContract = async (contractId) => {
 
 const getMembersList = async () => {
   const result = await sql.query(
-    `Select EntityID, EntityName From dbo.EntityT Where EntityGroup='Member' Order By EntityName`
+    `Select EntityID, EntityName From dbo.EntityT Where EntityGroupID='37' Order By EntityName`
   );
   if (result.recordset && result.recordset.length > 0) {
     const members = result.recordset;
@@ -94,6 +94,55 @@ const updateRecord = async (data, recordId) => {
   }
 };
 
+const getContactLastView = async (entityId) => {
+  const result = await sql.query(
+    `Select UserLastViewed From dbo.EntityT Where EntityID=${entityId}`
+  );
+
+  if (result.recordset && result.recordset.length > 0) {
+    const lastView = result.recordset[0];
+    return lastView;
+  } else {
+    const error = new Error("Last View Not Found!");
+    error.code = 404;
+    throw error;
+  }
+};
+
+const updateContactLastView = async (entityId) => {
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // months are 0-based
+  const year = date.getFullYear();
+
+  const formatted = `${month}-${day}-${year}`;
+
+  const result = await sql.query(
+    `Update dbo.EntityT Set UserLastViewed='${formatted}' Where EntityID=${entityId}`
+  );
+
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Update Last View!");
+    error.code = 400;
+    throw error;
+  }
+};
+
+const getContactInfo = async (entityId) => {
+  const result = await sql.query(
+    `Select EntityName, LastVerified, Initials, UserLastViewed, UserLastChanged, UserVerifiedBy From dbo.EntityT Where EntityID=${entityId}`
+  );
+
+  if (result.recordset && result.recordset.length > 0) {
+    const contactInfo = result.recordset[0];
+    return contactInfo;
+  } else {
+    const error = new Error("Conatct Info Not Found!");
+    error.code = 404;
+    throw error;
+  }
+};
+
 module.exports = {
   getContracts,
   getRecordsByContract,
@@ -101,4 +150,7 @@ module.exports = {
   addRecord,
   deleteRecord,
   updateRecord,
+  getContactLastView,
+  updateContactLastView,
+  getContactInfo
 };

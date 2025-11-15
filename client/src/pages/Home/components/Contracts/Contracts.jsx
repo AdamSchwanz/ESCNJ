@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Contracts.css";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../../../../redux/loaderSlice";
 import ContractRecords from "../ContractRecords/ContractRecords";
 import contractService from "../../../../services/contractService";
@@ -10,7 +11,9 @@ const Contracts = () => {
   const [state, setState] = useState("loading");
   const [selectedContract, setSelectedContract] = useState(null);
   const [records, setRecords] = useState([]);
+  const [userLastViewed, setUserLastViewed] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchContracts = async () => {
@@ -58,6 +61,27 @@ const Contracts = () => {
     }
   }, [selectedContract]);
 
+  useEffect(() => {
+    const getContactLastView = async () => {
+      try {
+        dispatch(ShowLoading());
+        const response = await contractService.getContactLastView();
+        //   console.log("Response: ", response);
+        setUserLastViewed(response?.lastView?.UserLastViewed);
+      } catch (error) {
+        setUserLastViewed(null);
+        console.log(
+          "Error: ",
+          error?.response?.data?.error || "Something Went Wrong!"
+        );
+      } finally {
+        dispatch(HideLoading());
+      }
+    };
+
+    getContactLastView();
+  }, []);
+
   const formatDate = (isoDateStr) => {
     const date = new Date(isoDateStr);
     const month = String(date.getUTCMonth() + 1).padStart(2, "0");
@@ -71,6 +95,26 @@ const Contracts = () => {
     setSelectedContract(contractId);
   };
 
+  const updateContactLastView = async () => {
+    try {
+      dispatch(ShowLoading());
+      const response = await contractService.updateContactLastView();
+      //   console.log("Response: ", response);
+    } catch (error) {
+      console.log(
+        "Error: ",
+        error?.response?.data?.error || "Something Went Wrong!"
+      );
+    } finally {
+      dispatch(HideLoading());
+    }
+  };
+
+  const handleContactButtonClick = async () => {
+    await updateContactLastView();
+    navigate("/contact-information")
+  };
+
   return (
     <>
       <div className="contract-wrapper">
@@ -80,15 +124,20 @@ const Contracts = () => {
           <div>No active contracts.</div>
         ) : (
           <>
+            {userLastViewed ?
+              <div className="contact-text">The last time you checked your contact information was {userLastViewed}.</div>
+              :
+              <div className="contact-text">Contact never viewed.</div>
+            }
+            <button className="contact-btn" onClick={handleContactButtonClick}>Contact Information</button>
             <div className="contracts">
               {contracts.map((contract, index) => (
                 <div
                   key={index}
-                  className={`contract ${
-                    selectedContract === contract.ContractID
-                      ? "selected-contract"
-                      : "non-selected-contract"
-                  }`}
+                  className={`contract ${selectedContract === contract.ContractID
+                    ? "selected-contract"
+                    : "non-selected-contract"
+                    }`}
                   onClick={() => handleContractClick(contract.ContractID)}
                 >
                   <div>Name: {contract.ContractName}</div>

@@ -45,4 +45,22 @@ router.patch(
     controller.UpdateRecord
 );
 
+router.get(
+    "/get-contact-last-view",
+    authMiddleware.authenticateRequest,
+    controller.GetContactLastView
+);
+
+router.patch(
+    "/update-contact-last-view",
+    authMiddleware.authenticateRequest,
+    controller.UpdateContactLastView
+);
+
+router.get(
+    "/get-contact-info",
+    authMiddleware.authenticateRequest,
+    controller.GetContactInfo
+);
+
 module.exports = router;
