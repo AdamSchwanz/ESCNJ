@@ -125,9 +125,9 @@ const Contracts = () => {
         ) : (
           <>
             {userLastViewed ?
-              <div className="contact-text">The last time you checked your contact information was {userLastViewed}.</div>
+              <div className="contact-text">Do you need to update your contact information?<br />The last time you confirmed your contact information was {userLastViewed}.</div>
               :
-              <div className="contact-text">Contact never viewed.</div>
+              <div className="contact-text">Your contact information has never been confirmed<br />Please confirm the contact information is correct.</div>
             }
             <button className="contact-btn" onClick={handleContactButtonClick}>Contact Information</button>
             <div className="contracts">

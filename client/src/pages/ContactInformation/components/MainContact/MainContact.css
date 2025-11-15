@@ -1,0 +1,65 @@
+.main-contact-info {
+    text-align: center;
+}
+
+.change-name-container {
+    display: flex;
+    justify-content: center;
+}
+
+.change-name {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.tab-container {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tab-section-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tab-section {
+    min-height: 100px;
+}
+
+.contact-tab {
+    background-color: red;
+}
+
+.address-tab {
+    background-color: blue;
+}
+
+.phone-tab {
+    background-color: green;
+}
+
+.close-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.close-button {
+    padding: 10px;
+    background-color: rgb(24, 67, 131);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.close-button:hover {
+    background-color: #0056b3;
+}
