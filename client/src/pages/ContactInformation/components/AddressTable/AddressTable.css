@@ -14,6 +14,27 @@
     cursor: pointer;
 }
 
+.address-table {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+@media (max-width: 480px) {
+    .address-table {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+.address-table table,
+.address-table tr,
+.address-table td,
+.address-table th {
+    border: 1px solid black;
+}
+
 @media (max-width: 480px) {
     .address-table .table-action {
         height: 50px;

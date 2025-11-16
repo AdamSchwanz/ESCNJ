@@ -1,33 +1,32 @@
-import "./ContactTable.css";
+import "./PhoneTable.css";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../../../../redux/loaderSlice";
 import { message, Popconfirm } from "antd";
 import contractService from "../../../../services/contractService";
 
-const ContactTable = ({ contacts, fetchContacts, setEditContact, userName, setRefetchMainInfo }) => {
+const PhoneTable = ({ phones, fetchPhones, setEditPhone, userName, setRefetchMainInfo }) => {
     const dispatch = useDispatch();
 
-    const handleEdit = (contact) => {
+    const handleEdit = (phone) => {
         const data = {
-            contactId: contact.ContactID,
-            firstName: contact.FirstName,
-            lastName: contact.LastName,
-            email: contact.Email,
+            phoneId: phone.PhoneID,
+            phoneNumber: phone.PhoneNumber,
+            ext: phone.Ext,
         };
-        // console.log("Contact to edit: ", data);
-        setEditContact(data);
+        // console.log("Phone to edit: ", data);
+        setEditPhone(data);
     };
 
-    const handleDelete = async (contactId) => {
+    const handleDelete = async (phoneId) => {
         try {
             dispatch(ShowLoading());
-            const response = await contractService.deleteContact(contactId);
+            const response = await contractService.deletePhone(phoneId);
             // console.log("Response: ", response);
             await contractService.updateUserLog({ name: userName });
             setRefetchMainInfo(true);
             message.success(response.message);
-            fetchContacts();
+            fetchPhones();
         } catch (error) {
             message.error(error?.response?.data?.error || "Something Went Wrong!");
         } finally {
@@ -36,32 +35,30 @@ const ContactTable = ({ contacts, fetchContacts, setEditContact, userName, setRe
     };
 
     return (
-        <table className="contact-table">
+        <table className="phone-table">
             <thead>
                 <tr>
-                    <th style={{ width: "30%" }}>First Name</th>
-                    <th style={{ width: "30%" }}>Last Name</th>
-                    <th style={{ width: "30%" }}>Email</th>
+                    <th style={{ width: "50%" }}>Phone Number</th>
+                    <th style={{ width: "40%" }}>Ext</th>
                     <th style={{ width: "10%" }}>Action</th>
                 </tr>
             </thead>
             <tbody>
-                {contacts.map((contact, index) => (
-                    <tr className="contract-contact-row" key={index}>
-                        <td>{contact.FirstName}</td>
-                        <td>{contact.LastName}</td>
-                        <td>{contact.Email}</td>
+                {phones.map((phone, index) => (
+                    <tr className="contract-phone-row" key={index}>
+                        <td>{phone.PhoneNumber}</td>
+                        <td>{phone.Ext}</td>
                         <td className="table-action">
                             <div
                                 className="table-action-icon"
-                                onClick={() => handleEdit(contact)}
+                                onClick={() => handleEdit(phone)}
                             >
                                 <MdEdit size={22} className="icon" />
                             </div>
                             <Popconfirm
-                                title="Delete the contact"
-                                description="Are you sure to delete this contact?"
-                                onConfirm={() => handleDelete(contact.ContactID)}
+                                title="Delete the phone"
+                                description="Are you sure to delete this phone?"
+                                onConfirm={() => handleDelete(phone.PhoneID)}
                                 onCancel={() => { }}
                                 okText="Yes"
                                 cancelText="No"
@@ -78,4 +75,4 @@ const ContactTable = ({ contacts, fetchContacts, setEditContact, userName, setRe
     )
 };
 
-export default ContactTable;
+export default PhoneTable;

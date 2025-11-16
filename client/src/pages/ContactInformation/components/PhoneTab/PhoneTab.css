@@ -1,4 +1,4 @@
-.tab-section .new-address-button {
+.tab-section .new-phone-button {
     padding: 10px;
     background-color: rgb(24, 67, 131);
     color: white;
@@ -9,7 +9,7 @@
     margin: 10px;
 }
 
-.tab-section .new-address-button:hover {
+.tab-section .new-phone-button:hover {
     background-color: #0056b3;
 }
 

@@ -162,53 +162,55 @@ const AddressForm = ({
                         <div className="error">{errors.address2}</div>
                     )}
                 </div>
-                <div className="input-container">
-                    <label htmlFor="city" className="label">
-                        City
-                    </label>
-                    <input
-                        type="text"
-                        className="input"
-                        id="city"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                    />
-                    {errors.city && (
-                        <div className="error">{errors.city}</div>
-                    )}
-                </div>
-                <div className="input-container">
-                    <label htmlFor="state" className="label">
-                        State
-                    </label>
-                    <input
-                        type="text"
-                        className="input"
-                        id="state"
-                        name="state"
-                        value={formData.state}
-                        onChange={handleChange}
-                    />
-                    {errors.state && (
-                        <div className="error">{errors.state}</div>
-                    )}
-                </div>
-                <div className="input-container">
-                    <label htmlFor="zip" className="label">
-                        ZIP
-                    </label>
-                    <input
-                        type="text"
-                        className="input"
-                        id="zip"
-                        name="zip"
-                        value={formData.zip}
-                        onChange={handleChange}
-                    />
-                    {errors.zip && (
-                        <div className="error">{errors.zip}</div>
-                    )}
+                <div className="csz">
+                    <div className="input-container">
+                        <label htmlFor="city" className="label">
+                            City
+                        </label>
+                        <input
+                            type="text"
+                            className="input"
+                            id="city"
+                            name="city"
+                            value={formData.city}
+                            onChange={handleChange}
+                        />
+                        {errors.city && (
+                            <div className="error">{errors.city}</div>
+                        )}
+                    </div>
+                    <div className="input-container">
+                        <label htmlFor="state" className="label">
+                            State
+                        </label>
+                        <input
+                            type="text"
+                            className="input"
+                            id="state"
+                            name="state"
+                            value={formData.state}
+                            onChange={handleChange}
+                        />
+                        {errors.state && (
+                            <div className="error">{errors.state}</div>
+                        )}
+                    </div>
+                    <div className="input-container">
+                        <label htmlFor="zip" className="label">
+                            ZIP
+                        </label>
+                        <input
+                            type="text"
+                            className="input"
+                            id="zip"
+                            name="zip"
+                            value={formData.zip}
+                            onChange={handleChange}
+                        />
+                        {errors.zip && (
+                            <div className="error">{errors.zip}</div>
+                        )}
+                    </div>
                 </div>
                 <div className="input-container">
                     <label htmlFor="county" className="label">

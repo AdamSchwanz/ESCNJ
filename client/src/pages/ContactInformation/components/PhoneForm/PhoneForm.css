@@ -1,4 +1,4 @@
-.add-address {
+.add-phone {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -6,35 +6,35 @@
     text-align: center;
 }
 
-.add-address .error {
+.add-phone .error {
     color: red;
 }
 
-.add-address .title {
+.add-phone .title {
     font-size: 30px;
     margin-bottom: 10px;
     font-weight: bold;
 }
 
-.add-address .input-container {
+.add-phone .input-container {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.add-address .label {
+.add-phone .label {
     width: 40%;
 }
 
-.add-address .input {
+.add-phone .input {
     width: 80%;
 }
 
-.add-address .add-address-form {
+.add-phone .add-phone-form {
     width: 90%;
 }
 
-.add-address .add-address-button {
+.add-phone .add-phone-button {
     padding: 10px;
     background-color: rgb(24, 67, 131);
     color: white;
@@ -46,11 +46,11 @@
     margin-bottom: 10px;
 }
 
-.add-address .add-address-button:hover {
+.add-phone .add-phone-button:hover {
     background-color: #0056b3;
 }
 
-.add-address .input-container {
+.add-phone .input-container {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
@@ -58,17 +58,13 @@
     font-size: 20px;
 }
 
-.add-address .input-label {
+.add-phone .input-label {
     width: 20%;
     text-align: center
 }
 
-.add-address .input {
+.add-phone .input {
     padding: 8px 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-.csz {
-    display: flex;
 }

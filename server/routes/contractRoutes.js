@@ -126,4 +126,32 @@ router.delete(
     controller.DeleteAddress
 );
 
+router.get(
+    "/get-phones",
+    authMiddleware.authenticateRequest,
+    controller.GetPhones
+);
+
+router.post(
+    "/add-phone",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateRequest(contractSchemas.addPhone),
+    controller.AddPhone
+);
+
+router.put(
+    "/update-phone/:phoneId",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateParams(contractSchemas.updatePhoneParams),
+    validationMiddleware.validateRequest(contractSchemas.updatePhoneBody),
+    controller.UpdatePhone
+);
+
+router.delete(
+    "/delete-phone/:phoneId",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateParams(contractSchemas.deletePhone),
+    controller.DeletePhone
+);
+
 module.exports = router;

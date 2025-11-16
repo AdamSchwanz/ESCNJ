@@ -7,6 +7,7 @@ import MainContact from "./components/MainContact/MainContact";
 import Tabs from "./components/Tabs/Tabs";
 import ContactTab from "./components/ContactTab/ContactTab";
 import AddressTab from "./components/AddressTab/AddressTab";
+import PhoneTab from "./components/PhoneTab/PhoneTab";
 
 const ContactInformation = () => {
     const [name, setName] = useState("");
@@ -34,7 +35,7 @@ const ContactInformation = () => {
                     <MainContact refetchMainInfo={refetchMainInfo} setRefetchMainInfo={setRefetchMainInfo} />
                     <div className="change-name-container">
                         <div className="change-name">
-                            <label className="tab-label">Name of Person Making Changes - Require this to edit/add/delete</label>
+                            <label className="tab-label">Name of Person Making Changes</label>
                             <input
                                 type="text"
                                 placeholder="Please Enter Name"
@@ -51,7 +52,7 @@ const ContactInformation = () => {
                         : activeTab === "address" ?
                             <AddressTab name={name} setRefetchMainInfo={setRefetchMainInfo} />
                             : activeTab === "phone" ?
-                                <div>Phone Tab</div>
+                                <PhoneTab name={name} setRefetchMainInfo={setRefetchMainInfo} />
                                 :
                                 <></>
                     }

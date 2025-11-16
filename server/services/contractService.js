@@ -266,6 +266,58 @@ const deleteAddress = async (addressId) => {
   }
 };
 
+const getPhones = async (entityId) => {
+  const result = await sql.query(
+    `Select PhoneID, PhoneNumber, Ext From dbo.PhoneT Where EntityID=${entityId}`
+  );
+
+  if (result.recordset && result.recordset.length > 0) {
+    const phones = result.recordset;
+    return phones;
+  } else {
+    const error = new Error("Phones Not Found!");
+    error.code = 404;
+    throw error;
+  }
+};
+
+const addPhone = async (entityId, data) => {
+  const { phoneNumber, ext } = data;
+  const result = await sql.query(
+    `Insert Into dbo.PhoneT (EntityID, PhoneNumber, Ext) VALUES (${entityId},'${phoneNumber}','${ext}')`
+  );
+
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Add Phones!");
+    error.code = 400;
+    throw error;
+  }
+};
+
+const updatePhone = async (phoneId, data) => {
+  const { phoneNumber, ext } = data;
+  const result = await sql.query(
+    `Update dbo.PhoneT set PhoneNumber='${phoneNumber}',Ext='${ext}' where PhoneID=${phoneId}`
+  );
+
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Update Phones!");
+    error.code = 400;
+    throw error;
+  }
+};
+
+const deletePhone = async (phoneId) => {
+  const result = await sql.query(
+    `Delete from dbo.PhoneT Where PhoneID=${phoneId}`
+  );
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Delete Phone!");
+    error.code = 400;
+    throw error;
+  }
+};
+
 module.exports = {
   getContracts,
   getRecordsByContract,
@@ -284,5 +336,9 @@ module.exports = {
   getAddresses,
   addAddress,
   updateAddress,
-  deleteAddress
+  deleteAddress,
+  getPhones,
+  addPhone,
+  updatePhone,
+  deletePhone
 };

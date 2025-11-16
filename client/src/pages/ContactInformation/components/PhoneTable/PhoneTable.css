@@ -1,42 +1,42 @@
-.contact-table .table-action {
+.phone-table .table-action {
     display: flex;
     text-align: center;
     justify-content: center;
     align-items: center;
 }
 
-.contact-table .table-action-icon {
+.phone-table .table-action-icon {
     width: 50%;
 }
 
-.contact-table .table-action-icon:hover {
+.phone-table .table-action-icon:hover {
     color: red;
     cursor: pointer;
 }
 
-.contact-table {
+.phone-table {
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
 }
 
 @media (max-width: 480px) {
-    .contact-table {
+    .phone-table {
         width: 100%;
         margin-left: 0;
         margin-right: 0;
     }
 }
 
-.contact-table table,
-.contact-table tr,
-.contact-table td,
-.contact-table th {
+.phone-table table,
+.phone-table tr,
+.phone-table td,
+.phone-table th {
     border: 1px solid black;
 }
 
 @media (max-width: 480px) {
-    .contact-table .table-action {
+    .phone-table .table-action {
         height: 50px;
     }
 }

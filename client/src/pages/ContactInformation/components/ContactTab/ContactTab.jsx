@@ -52,7 +52,9 @@ const ContactTab = ({ name, setRefetchMainInfo }) => {
 
     return (
         <div className="tab-section contact-tab">
-            <button className="new-contact-button" onClick={handleNewContact}>Add New Contact</button>
+            <div className="button-container">
+                <button className="new-contact-button" onClick={handleNewContact}>Add New Contact</button>
+            </div>
             {(contacts && contacts.length > 0) &&
                 <ContactTable contacts={contacts} fetchContacts={fetchContacts} setEditContact={setEditContact} userName={name} setRefetchMainInfo={setRefetchMainInfo} />
             }

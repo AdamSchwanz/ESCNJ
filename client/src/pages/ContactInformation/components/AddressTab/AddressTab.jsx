@@ -52,7 +52,9 @@ const AddressTab = ({ name, setRefetchMainInfo }) => {
 
     return (
         <div className="tab-section address-tab">
-            <button className="new-address-button" onClick={handleNewAddress}>Add New Address</button>
+            <div className="button-container">
+                <button className="new-address-button" onClick={handleNewAddress}>Add New Address</button>
+            </div>
             {(addresses && addresses.length > 0) &&
                 <AddressTable addresses={addresses} fetchAddresses={fetchAddresses} setEditAddress={setEditAddress} userName={name} setRefetchMainInfo={setRefetchMainInfo} />
             }

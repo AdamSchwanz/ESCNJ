@@ -143,34 +143,6 @@ const DeleteContact = async (req, res, next) => {
     }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const GetAddresses = async (req, res, next) => {
     try {
         const { id } = req.user;
@@ -213,6 +185,47 @@ const DeleteAddress = async (req, res, next) => {
     }
 };
 
+const GetPhones = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const phones = await contractService.getPhones(id);
+        res.status(200).json({ phones });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const AddPhone = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const data = req.body;
+        await contractService.addPhone(id, data);
+        res.status(201).json({ message: "Phone Added Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const UpdatePhone = async (req, res, next) => {
+    try {
+        const { phoneId } = req.params;
+        const data = req.body;
+        await contractService.updatePhone(phoneId, data);
+        res.status(200).json({ message: "Phone Updated Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const DeletePhone = async (req, res, next) => {
+    try {
+        const { phoneId } = req.params;
+        await contractService.deletePhone(phoneId);
+        res.status(200).json({ message: "Phone Deleted Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
 
 module.exports = {
     GetContracts,
@@ -232,5 +245,9 @@ module.exports = {
     GetAddresses,
     AddAddress,
     UpdateAddress,
-    DeleteAddress
+    DeleteAddress,
+    GetPhones,
+    AddPhone,
+    UpdatePhone,
+    DeletePhone
 };

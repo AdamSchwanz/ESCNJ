@@ -12,9 +12,14 @@
     align-items: center;
 }
 
+.change-name .tab-label {
+    color: red;
+}
+
 .close-button-container {
     display: flex;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .close-button {

@@ -77,6 +77,24 @@ const deleteAddress = yup.object().shape({
     addressId: yup.number().required('Address ID is required'),
 });
 
+const addPhone = yup.object().shape({
+    phoneNumber: yup.string().trim().required('Phone Number is required'),
+    ext: yup.string().trim().required('Ext is required'),
+});
+
+const updatePhoneParams = yup.object().shape({
+    phoneId: yup.number().required('Phone ID is required'),
+});
+
+const updatePhoneBody = yup.object().shape({
+    phoneNumber: yup.string().trim().required('Phone Number is required'),
+    ext: yup.string().trim().required('Ext is required'),
+});
+
+const deletePhone = yup.object().shape({
+    phoneId: yup.number().required('Phone ID is required'),
+});
+
 module.exports = {
     getRecords,
     addRecord,
@@ -91,5 +109,9 @@ module.exports = {
     addAddress,
     updateAddressParams,
     updateAddressBody,
-    deleteAddress
+    deleteAddress,
+    addPhone,
+    updatePhoneParams,
+    updatePhoneBody,
+    deletePhone
 };

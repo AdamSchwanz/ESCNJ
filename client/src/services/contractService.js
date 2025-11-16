@@ -148,6 +148,38 @@ const contractService = {
             throw error;
         }
     },
+    getPhones: async () => {
+        try {
+            const response = await axiosInstance.get(`${BASE_URL}/get-phones`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    addPhone: async (payload) => {
+        try {
+            const response = await axiosInstance.post(`${BASE_URL}/add-phone`, payload);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    updatePhone: async (phoneId, payload) => {
+        try {
+            const response = await axiosInstance.put(`${BASE_URL}/update-phone/${phoneId}`, payload);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    deletePhone: async (phoneId) => {
+        try {
+            const response = await axiosInstance.delete(`${BASE_URL}/delete-phone/${phoneId}`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 }
 
 export default contractService;
