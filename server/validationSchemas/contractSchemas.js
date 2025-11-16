@@ -26,7 +26,7 @@ const updateRecordBody = yup.object().shape({
 });
 
 const updateUserLog = yup.object().shape({
-    name: yup.string().trim().required('Name is required'),
+    name: yup.string().trim(),
 });
 
 const addContact = yup.object().shape({
@@ -49,6 +49,34 @@ const deleteContact = yup.object().shape({
     contactId: yup.number().required('Contact ID is required'),
 });
 
+const addAddress = yup.object().shape({
+    address: yup.string().trim().required('Address is required'),
+    address2: yup.string().trim(),
+    city: yup.string().trim().required('City is required'),
+    state: yup.string().trim().required('State is required'),
+    zip: yup.string().trim().required('ZIP is required'),
+    county: yup.string().trim().required('County is required'),
+    country: yup.string().trim().required('Country is required'),
+});
+
+const updateAddressParams = yup.object().shape({
+    addressId: yup.number().required('Address ID is required'),
+});
+
+const updateAddressBody = yup.object().shape({
+    address: yup.string().trim().required('Address is required'),
+    address2: yup.string().trim(),
+    city: yup.string().trim().required('City is required'),
+    state: yup.string().trim().required('State is required'),
+    zip: yup.string().trim().required('ZIP is required'),
+    county: yup.string().trim().required('County is required'),
+    country: yup.string().trim().required('Country is required'),
+});
+
+const deleteAddress = yup.object().shape({
+    addressId: yup.number().required('Address ID is required'),
+});
+
 module.exports = {
     getRecords,
     addRecord,
@@ -59,5 +87,9 @@ module.exports = {
     addContact,
     updateContactParams,
     updateContactBody,
-    deleteContact
+    deleteContact,
+    addAddress,
+    updateAddressParams,
+    updateAddressBody,
+    deleteAddress
 };

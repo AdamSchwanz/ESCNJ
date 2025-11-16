@@ -98,4 +98,32 @@ router.delete(
     controller.DeleteContact
 );
 
+router.get(
+    "/get-addresses",
+    authMiddleware.authenticateRequest,
+    controller.GetAddresses
+);
+
+router.post(
+    "/add-address",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateRequest(contractSchemas.addAddress),
+    controller.AddAddress
+);
+
+router.put(
+    "/update-address/:addressId",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateParams(contractSchemas.updateAddressParams),
+    validationMiddleware.validateRequest(contractSchemas.updateAddressBody),
+    controller.UpdateAddress
+);
+
+router.delete(
+    "/delete-address/:addressId",
+    authMiddleware.authenticateRequest,
+    validationMiddleware.validateParams(contractSchemas.deleteAddress),
+    controller.DeleteAddress
+);
+
 module.exports = router;

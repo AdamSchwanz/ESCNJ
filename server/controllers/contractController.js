@@ -143,6 +143,77 @@ const DeleteContact = async (req, res, next) => {
     }
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const GetAddresses = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const addresses = await contractService.getAddresses(id);
+        res.status(200).json({ addresses });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const AddAddress = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const data = req.body;
+        await contractService.addAddress(id, data);
+        res.status(201).json({ message: "Address Added Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const UpdateAddress = async (req, res, next) => {
+    try {
+        const { addressId } = req.params;
+        const data = req.body;
+        await contractService.updateAddress(addressId, data);
+        res.status(200).json({ message: "Address Updated Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const DeleteAddress = async (req, res, next) => {
+    try {
+        const { addressId } = req.params;
+        await contractService.deleteAddress(addressId);
+        res.status(200).json({ message: "Address Deleted Successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 module.exports = {
     GetContracts,
     GetRecordsByContract,
@@ -157,5 +228,9 @@ module.exports = {
     GetContacts,
     AddContact,
     UpdateContact,
-    DeleteContact
+    DeleteContact,
+    GetAddresses,
+    AddAddress,
+    UpdateAddress,
+    DeleteAddress
 };

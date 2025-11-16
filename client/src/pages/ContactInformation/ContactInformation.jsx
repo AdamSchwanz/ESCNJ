@@ -6,6 +6,7 @@ import Header from "../../components/Header/Header";
 import MainContact from "./components/MainContact/MainContact";
 import Tabs from "./components/Tabs/Tabs";
 import ContactTab from "./components/ContactTab/ContactTab";
+import AddressTab from "./components/AddressTab/AddressTab";
 
 const ContactInformation = () => {
     const [name, setName] = useState("");
@@ -14,8 +15,6 @@ const ContactInformation = () => {
     const [refetchMainInfo, setRefetchMainInfo] = useState(false);
     const isAuth = Cookies.get("escnj-jwt-token") ? true : false;
     const navigate = useNavigate();
-
-    console.log("Error: ", error);
 
     useEffect(() => {
         if (!isAuth) {
@@ -48,11 +47,9 @@ const ContactInformation = () => {
                     </div>
                     <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
                     {activeTab === "contact" ?
-                        <ContactTab name={name} setError={setError} setRefetchMainInfo={setRefetchMainInfo} />
+                        <ContactTab name={name} setRefetchMainInfo={setRefetchMainInfo} />
                         : activeTab === "address" ?
-                            <div>
-                                <div>Address Tab</div>
-                            </div>
+                            <AddressTab name={name} setRefetchMainInfo={setRefetchMainInfo} />
                             : activeTab === "phone" ?
                                 <div>Phone Tab</div>
                                 :

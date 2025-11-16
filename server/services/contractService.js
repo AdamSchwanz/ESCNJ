@@ -152,7 +152,7 @@ const updateUserLog = async (entityId, name) => {
   const formatted = `${month}-${day}-${year}`;
 
   const result = await sql.query(
-    `Update dbo.EntityT set UserLastChanged='${formatted}', UserVerifiedBy='${name}' where EntityID=${entityId}`
+    `Update dbo.EntityT set UserLastChanged='${formatted}', UserVerifiedBy='${name || "N/A"}' where EntityID=${entityId}`
   );
 
   if (result.rowsAffected[0] <= 0) {
@@ -214,6 +214,58 @@ const deleteContact = async (contactId) => {
   }
 };
 
+const getAddresses = async (entityId) => {
+  const result = await sql.query(
+    `Select AddressID, Address, Address2, City, State, ZIP, County, Country From dbo.AddressT Where EntityID=${entityId}`
+  );
+
+  if (result.recordset && result.recordset.length > 0) {
+    const addresses = result.recordset;
+    return addresses;
+  } else {
+    const error = new Error("Addresses Not Found!");
+    error.code = 404;
+    throw error;
+  }
+};
+
+const addAddress = async (entityId, data) => {
+  const { address, address2, city, state, zip, county, country } = data;
+  const result = await sql.query(
+    `Insert Into dbo.AddressT (EntityID, Address, Address2, City, State, ZIP, County, Country) VALUES (${entityId},'${address}','${address2}','${city}','${state}','${zip}','${county}','${country}')`
+  );
+
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Add Address!");
+    error.code = 400;
+    throw error;
+  }
+};
+
+const updateAddress = async (addressId, data) => {
+  const { address, address2, city, state, zip, county, country } = data;
+  const result = await sql.query(
+    `Update dbo.AddressT set Address='${address}',Address2='${address2}',City='${city}',State='${state}',ZIP='${zip}',County='${county}',Country='${country}' where AddressID=${addressId}`
+  );
+
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Update Address!");
+    error.code = 400;
+    throw error;
+  }
+};
+
+const deleteAddress = async (addressId) => {
+  const result = await sql.query(
+    `Delete from dbo.AddressT Where AddressID=${addressId}`
+  );
+  if (result.rowsAffected[0] <= 0) {
+    const error = new Error("Unable To Delete Address!");
+    error.code = 400;
+    throw error;
+  }
+};
+
 module.exports = {
   getContracts,
   getRecordsByContract,
@@ -228,5 +280,9 @@ module.exports = {
   getContacts,
   addContact,
   updateContact,
-  deleteContact
+  deleteContact,
+  getAddresses,
+  addAddress,
+  updateAddress,
+  deleteAddress
 };

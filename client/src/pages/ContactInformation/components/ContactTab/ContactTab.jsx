@@ -7,7 +7,7 @@ import ContactForm from "../ContactForm/ContactForm";
 import CustomModal from "../../../../components/CustomModal/CustomModal";
 import contractService from "../../../../services/contractService";
 
-const ContactTab = ({ name, setError, setRefetchMainInfo }) => {
+const ContactTab = ({ name, setRefetchMainInfo }) => {
     const [contacts, setContacts] = useState([]);
     const [editContact, setEditContact] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -34,26 +34,12 @@ const ContactTab = ({ name, setError, setRefetchMainInfo }) => {
     }, []);
 
     useEffect(() => {
-        if (editContact && !name) {
-            setError("Please enter the name");
-            return;
-        } else {
-            setError("");
-        }
-
         if (editContact) {
             setShowModal(true);
         }
     }, [editContact]);
 
     const handleNewContact = () => {
-        if (!name) {
-            setError("Please enter the name");
-            return;
-        } else {
-            setError("");
-        }
-
         setShowModal(true);
     };
 
@@ -68,7 +54,7 @@ const ContactTab = ({ name, setError, setRefetchMainInfo }) => {
         <div className="tab-section contact-tab">
             <button className="new-contact-button" onClick={handleNewContact}>Add New Contact</button>
             {(contacts && contacts.length > 0) &&
-                <ContactTable contacts={contacts} fetchContacts={fetchContacts} setEditContact={setEditContact} userName={name} setError={setError} setRefetchMainInfo={setRefetchMainInfo} />
+                <ContactTable contacts={contacts} fetchContacts={fetchContacts} setEditContact={setEditContact} userName={name} setRefetchMainInfo={setRefetchMainInfo} />
             }
 
             <CustomModal isOpen={showModal} onRequestClose={handleModalClose} contentLabel="Contact Form" width='40%'>

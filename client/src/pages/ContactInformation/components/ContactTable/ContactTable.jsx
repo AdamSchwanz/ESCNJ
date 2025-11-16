@@ -5,7 +5,7 @@ import { HideLoading, ShowLoading } from "../../../../redux/loaderSlice";
 import { message, Popconfirm } from "antd";
 import contractService from "../../../../services/contractService";
 
-const ContactTable = ({ contacts, fetchContacts, setEditContact, userName, setError, setRefetchMainInfo }) => {
+const ContactTable = ({ contacts, fetchContacts, setEditContact, userName, setRefetchMainInfo }) => {
     const dispatch = useDispatch();
 
     const handleEdit = (contact) => {
@@ -20,13 +20,6 @@ const ContactTable = ({ contacts, fetchContacts, setEditContact, userName, setEr
     };
 
     const handleDelete = async (contactId) => {
-        if (!userName) {
-            setError("Please enter the name");
-            return;
-        } else {
-            setError("");
-        }
-
         try {
             dispatch(ShowLoading());
             const response = await contractService.deleteContact(contactId);

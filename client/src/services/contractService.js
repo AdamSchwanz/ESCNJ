@@ -115,6 +115,39 @@ const contractService = {
             throw error;
         }
     },
+
+    getAddresses: async () => {
+        try {
+            const response = await axiosInstance.get(`${BASE_URL}/get-addresses`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    addAddress: async (payload) => {
+        try {
+            const response = await axiosInstance.post(`${BASE_URL}/add-address`, payload);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    updateAddress: async (addressId, payload) => {
+        try {
+            const response = await axiosInstance.put(`${BASE_URL}/update-address/${addressId}`, payload);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    deleteAddress: async (addressId) => {
+        try {
+            const response = await axiosInstance.delete(`${BASE_URL}/delete-address/${addressId}`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 }
 
 export default contractService;

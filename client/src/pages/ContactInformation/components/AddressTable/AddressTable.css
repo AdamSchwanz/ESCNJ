@@ -1,21 +1,21 @@
-.contact-table .table-action {
+.address-table .table-action {
     display: flex;
     text-align: center;
     justify-content: center;
     align-items: center;
 }
 
-.contact-table .table-action-icon {
+.address-table .table-action-icon {
     width: 50%;
 }
 
-.contact-table .table-action-icon:hover {
+.address-table .table-action-icon:hover {
     color: red;
     cursor: pointer;
 }
 
 @media (max-width: 480px) {
-    .contact-table .table-action {
+    .address-table .table-action {
         height: 50px;
     }
 }
