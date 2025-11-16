@@ -79,7 +79,7 @@ const deleteAddress = yup.object().shape({
 
 const addPhone = yup.object().shape({
     phoneNumber: yup.string().trim().required('Phone Number is required'),
-    ext: yup.string().trim().required('Ext is required'),
+    ext: yup.string().trim(),
 });
 
 const updatePhoneParams = yup.object().shape({
@@ -88,7 +88,7 @@ const updatePhoneParams = yup.object().shape({
 
 const updatePhoneBody = yup.object().shape({
     phoneNumber: yup.string().trim().required('Phone Number is required'),
-    ext: yup.string().trim().required('Ext is required'),
+    ext: yup.string().trim(),
 });
 
 const deletePhone = yup.object().shape({

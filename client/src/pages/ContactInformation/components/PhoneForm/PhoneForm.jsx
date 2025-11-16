@@ -39,12 +39,6 @@ const PhoneForm = ({
         } else {
             newErrors.phoneNumber = "";
         }
-        if (!ext) {
-            newErrors.ext = "Please enter the ext";
-            hasErrors = true;
-        } else {
-            newErrors.ext = "";
-        }
 
         setErrors((prevState) => ({ ...prevState, ...newErrors }));
         return !hasErrors;
